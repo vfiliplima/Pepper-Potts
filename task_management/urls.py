@@ -21,6 +21,7 @@ from tasks.views import (
     TaskListCreateView,
     TaskRetrieveUpdateDestroyView,
     task_list,
+    task_detail,
     index,
 )
 
@@ -34,4 +35,5 @@ urlpatterns = [
     ),
     path("task-list/", task_list, name="view-tasks"),
     path("", index, name="home-page"),
+    path("task/<int:pk>/detail", task_detail, name="task-detail-page"),
 ]

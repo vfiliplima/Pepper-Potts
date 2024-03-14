@@ -1,0 +1,14 @@
+# Ignore files generated during development
+*.log
+*.pyc
+__pycache__
+
+# Ignore dependency management files
+*.lock
+node_modules/
+
+.git
+
+# Ignore editor configuration files
+.vscode/
+.idea/
