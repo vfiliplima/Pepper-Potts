@@ -23,6 +23,8 @@ from tasks.views import (
     task_list,
     task_detail,
     index,
+    task_delete,
+    create_task,
 )
 
 urlpatterns = [
@@ -33,7 +35,9 @@ urlpatterns = [
         TaskRetrieveUpdateDestroyView.as_view(),
         name="task-update-destroy",
     ),
-    path("task-list/", task_list, name="view-tasks"),
     path("", index, name="home-page"),
-    path("task/<int:pk>/detail", task_detail, name="task-detail-page"),
+    path("task-list/", task_list, name="view-tasks"),
+    path("task/<int:pk>/detail/", task_detail, name="task-detail-page"),
+    path("task/<int:pk>/delete/", task_delete, name="task-delete"),
+    path("task/create/", create_task, name="task-create"),
 ]
