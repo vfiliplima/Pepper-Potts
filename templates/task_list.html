@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    <ul id="task-list" hx-get="{% url 'task-list' %}">
+        {% for task in tasks %}
+            <li>{{ task.title }}</li>
+        {% endfor %}
+    </ul>
+    <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+</body>
+</html>
