@@ -5,6 +5,7 @@ from .serializers import TaskSerializer
 from .forms import TaskForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.contrib.auth.forms import UserCreationForm
 
 
 # from django.urls import reverse
@@ -19,6 +20,19 @@ class TaskRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     lookup_field = "pk"
+
+
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                "login"
+            )  # Redirect to the login page after successful signup
+    else:
+        form = UserCreationForm()
+    return render(request, "signup.html", {"form": form})
 
 
 def task_list(request):

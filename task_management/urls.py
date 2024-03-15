@@ -27,11 +27,11 @@ from tasks.views import (
     task_detail,
     task_update,
     task_delete,
+    signup,
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("accounts/", include("django.contrib.auth.urls")),
     path("tasks/", TaskListCreateView.as_view(), name="task-list-create"),
     path(
         "tasks/<int:pk>/",
@@ -43,6 +43,7 @@ urlpatterns = [
         LoginView.as_view(template_name="home.html", next_page="view-tasks"),
         name="login",
     ),
+    path("signup/", signup, name="signup"),
     path("logout/", LogoutView.as_view(next_page="view-tasks"), name="logout"),
     path("task/create/", create_task, name="task-create"),
     path("task-list/", task_list, name="view-tasks"),
