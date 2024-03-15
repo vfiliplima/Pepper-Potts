@@ -12,6 +12,16 @@
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createTaskModal">
             Create New Task
         </button>
+        <form action="{% url 'view-tasks' %}" method="GET">
+            <label for="priority">Filter by Priority:</label>
+            <select name="priority" id="priority">
+                <option value="">All</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
         <ul class="list-group">
             {% for task in tasks %}
             <li class="list-group-item">
