@@ -105,8 +105,7 @@
                         <button 
                             type="submit" 
                             class="btn btn-primary" 
-                            hx-post="{% url 'task-update' pk=task.pk %}" 
-                            hx-headers="{ 'X-CSRFToken': '{{ csrf_token }}' }"
+                            hx-put="{% url 'task-update' pk=task.pk %}" 
                             hx-swap="outerHTML"
                             hx-include="#editTaskForm input, #editTaskForm textarea, #editTaskForm select"
                         >
@@ -120,29 +119,29 @@
 
     <!-- JavaScript to populate form fields with task details -->
     <script>
-        var editTaskModal = document.getElementById('editTaskModal');
+        const editTaskModal = document.getElementById('editTaskModal');
         editTaskModal.addEventListener('show.bs.modal', function (event) {
             // Button that triggered the modal
-            var button = event.relatedTarget;
+            const button = event.relatedTarget;
 
             // Extract task details from the button's data attributes or JavaScript object
-            var taskId = button.getAttribute('data-task-id');
-            var taskTitle = button.getAttribute('data-task-title');
-            var taskDescription = button.getAttribute('data-task-description');
-            var taskDueDate = button.getAttribute('data-task-due-date');
-            var taskPriority = button.getAttribute('data-task-priority');
+            const taskId = button.getAttribute('data-task-id');
+            const taskTitle = button.getAttribute('data-task-title');
+            const taskDescription = button.getAttribute('data-task-description');
+            const taskDueDate = button.getAttribute('data-task-due-date');
+            const taskPriority = button.getAttribute('data-task-priority');
 
             // Populate form fields with task details
-            var editTitleInput = editTaskModal.querySelector('#editTitle');
+            const editTitleInput = editTaskModal.querySelector('#editTitle');
             editTitleInput.value = taskTitle;
 
-            var editDescriptionInput = editTaskModal.querySelector('#editDescription');
+            const editDescriptionInput = editTaskModal.querySelector('#editDescription');
             editDescriptionInput.value = taskDescription;
 
-            var editDueDateInput = editTaskModal.querySelector('#editDueDate');
+            const editDueDateInput = editTaskModal.querySelector('#editDueDate');
             editDueDateInput.value = taskDueDate;
 
-            var editPrioritySelect = editTaskModal.querySelector('#editPriority');
+            const editPrioritySelect = editTaskModal.querySelector('#editPriority');
             editPrioritySelect.value = taskPriority;
         });
     </script>
