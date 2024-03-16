@@ -40,7 +40,7 @@ urlpatterns = [
     ),
     path(
         "accounts/login/",
-        LoginView.as_view(template_name="home.html", next_page="view-tasks"),
+        LoginView.as_view(template_name="login.html", next_page="view-tasks"),
         name="login",
     ),
     path("signup/", signup, name="signup"),
