@@ -1,8 +1,8 @@
-# Pepper Pots - Task Management Project
+# Pepper Potts - Task Management Project
 
 ## Overview
 
-Pepper Pots is a project aimed at showcasing task management functionality, including authentication, authorization.
+Pepper Potts is a project aimed at showcasing task management functionality, including authentication, authorization.
 
 ## Setup
 
@@ -11,7 +11,7 @@ To set up the project locally, follow these steps:
 1. **Clone the repository**:
 
    ```
-   git clone https://github.com/vfiliplima/Pepper-Pots.git
+   git clone https://github.com/vfiliplima/Pepper-Potts.git
    ```
 
 2. **Navigate to the project folder**:
