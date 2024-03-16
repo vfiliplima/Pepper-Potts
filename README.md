@@ -52,4 +52,3 @@ Once the project is set up, and you server is running, here are some steps to ge
   - Pagination: display limited amount of tasks per page.
   - Task completion fucntionality: easy and intuitive way to mark tasks as "completed".
   - Task List Filter: Add option to only see tasks associated with logged user on task list.
-- (Tasks were chosen to showcase what could be implemented throughout the project with authentications and authorization checks, documentation, and thorough testing of routes, controllers, and models.)
