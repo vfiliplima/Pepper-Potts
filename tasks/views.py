@@ -4,11 +4,14 @@ from .models import Task
 from .serializers import TaskSerializer
 from .forms import TaskForm
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import (
+    HttpResponseForbidden,
+    HttpResponseRedirect,
+    QueryDict,
+)
 from django.contrib.auth.forms import UserCreationForm
-
-
-# from django.urls import reverse
+from django.urls import reverse
+from django.core.paginator import Paginator
 
 
 class TaskListCreateView(generics.ListCreateAPIView):
@@ -36,55 +39,48 @@ def signup(request):
 
 
 def task_list(request):
-    priority = request.GET.get(
-        "priority", None
-    )  # Get the priority from the request query parameters
-    tasks = Task.objects.all()
+    priority = request.GET.get("priority")
+    see_only_self_tasks = request.GET.get("my_tasks")
+    search_query = request.GET.get("search", "")
+    page_number = request.GET.get("page")
 
-    # Filter tasks based on priority if a priority is selected
+    tasks = Task.objects.all()
+    if search_query:
+        tasks = tasks.filter(title__icontains=search_query)
+
+    if see_only_self_tasks == "true":
+        tasks = Task.objects.filter(user=request.user)
+
     if priority:
         tasks = tasks.filter(priority=priority)
 
-    context = {
-        "tasks": tasks,
-    }
-    return render(request, "task_list.html", context)
+    paginator = Paginator(tasks, 5)
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "task_list.html", {"page_obj": page_obj})
 
 
 @login_required
 def task_detail(request, pk):
-    # Retrieve the task object from the database using its ID
     task = get_object_or_404(Task, pk=pk)
 
     # Check if the logged-in user matches the user assigned to the task
     if task.user != request.user:
-        # If the logged-in user is not the assigned user, return a 403 Forbidden response
         return HttpResponseForbidden("You don't have permission to view this task.")
 
-    # Pass the task object to the template for rendering
     return render(request, "task_detail.html", {"task": task})
 
 
 @login_required
 def task_delete(request, pk):
-    print("")
-    print("---")
-    print(request.method)
-    token = request.user
-    print(token)
-    print("---")
-    print("")
-    # Retrieve the task object from the database using its ID
     task = get_object_or_404(Task, pk=pk)
 
-    # Check if the request method is POST (delete confirmation)
-    if request.method == "POST":
-        # Delete the task object
+    if request.method == "DELETE":
         task.delete()
         # Redirect to the task list page
-        return redirect("view-tasks")
+        return HttpResponseRedirect(reverse("view-tasks"))
     else:
-        # If the request method is not POST, render a confirmation page
+        # If the request method is not DELETE, render a confirmation page
         return render(request, "task_delete_confirm.html", {"task": task})
 
 
@@ -101,26 +97,22 @@ def create_task(request):
     return render(request, "create_task.html", {"form": form})
 
 
+@login_required
 def task_update(request, pk):
     # Retrieve the task object from the database using its ID
     task = get_object_or_404(Task, pk=pk)
 
-    print("")
-    print("")
-    print(request.method)
-    print("")
-    print("")
-
     if request.method == "PUT":
-        # Process the form submission data
-        task.title = request.POST.get("editTitle")
-        task.description = request.POST.get("editDescription")
-        task.due_date = request.POST.get("editDueDate")
-        task.priority = request.POST.get("editPriority")
+        # Parse the request body into a QueryDict object
+        put_data = QueryDict(request.body)
+
+        task.title = put_data.get("editTitle")
+        task.description = put_data.get("editDescription")
+        task.due_date = put_data.get("editDueDate")
+        task.priority = put_data.get("editPriority")
         task.save()
 
-        # Redirect to the task detail page or any other appropriate page
-        return redirect("task-detail-page", pk=pk)
+        return HttpResponseRedirect(reverse("view-tasks"))
 
-    # If the request method is not POST, render the same page with the form
+    # If the request method is not PUT, render the task edit form
     return render(request, "task_detail.html", {"task": task})

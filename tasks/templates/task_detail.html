@@ -58,6 +58,7 @@
                         type="button" 
                         class="btn btn-danger" 
                         hx-delete="{% url 'task-delete' pk=task.pk %}"
+                        hx-target="body"
                         data-bs-dismiss="modal"
                     >
                         Confirm Delete
@@ -89,7 +90,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="editDueDate" class="form-label">Due Date</label>
-                            <input type="datetime-local" class="form-control" id="due_date" name="due_date" required>
+                            <input type="datetime-local" class="form-control" id="editDueDate" name="editDueDate" required>
                         </div>
                         <div class="mb-3">
                             <label for="editPriority" class="form-label">Priority</label>
@@ -108,6 +109,7 @@
                             hx-put="{% url 'task-update' pk=task.pk %}" 
                             hx-swap="outerHTML"
                             hx-include="#editTaskForm input, #editTaskForm textarea, #editTaskForm select"
+                            hx-target="body"
                         >
                             Save Changes
                         </button>
