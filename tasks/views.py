@@ -4,6 +4,7 @@ from .models import Task
 from .serializers import TaskSerializer
 from .forms import TaskForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.http import (
     HttpResponseForbidden,
     HttpResponseRedirect,
@@ -116,3 +117,13 @@ def task_update(request, pk):
 
     # If the request method is not PUT, render the task edit form
     return render(request, "task_detail.html", {"task": task})
+
+
+@login_required
+@require_http_methods(["PATCH"])
+def task_status_update(request, pk):   
+    task = get_object_or_404(Task, pk=pk)
+
+    task.status = QueryDict(request.body).get("newStatus")
+    task.save()
+    return HttpResponseRedirect(reverse("view-tasks"))

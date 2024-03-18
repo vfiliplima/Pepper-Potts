@@ -10,26 +10,51 @@
     <div class="container py-4">
         <h1 class="text-center mb-4">Task Detail</h1>
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ task.title }}</h5>
-                <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
-                <p class="card-text"><strong>Due Date:</strong> {{ task.due_date }}</p>
-                <p class="card-text"><strong>Priority:</strong> {{ task.priority }}</p>
-                <p class="card-text"><strong>User:</strong> {{ task.user }}</p>
-                <!-- Delete Task Button with Confirmation Modal -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                    Delete Task
-                </button>
-                <a href="{% url 'view-tasks' %}" class="btn btn-primary">Back to Task List</a>
-
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal"
-                    data-task-id="{{ task.id }}" data-task-title="{{ task.title }}" 
-                    data-task-description="{{ task.description }}" data-task-due-date="{{ task.due_date }}"
-                    data-task-priority="{{ task.priority }}"
-                >
-                    Edit Task
-                </button>
-
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title">{{ task.title }}</h5>
+                    <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
+                    <p class="card-text"><strong>Due Date:</strong> {{ task.due_date }}</p>
+                    <p class="card-text"><strong>Priority:</strong> {{ task.priority }}</p>
+                    <p class="card-text"><strong>Status:</strong> {{ task.status }}</p>
+                    <p class="card-text"><strong>User:</strong> {{ task.user }}</p>
+                    <div class="status-container">
+                        <form 
+                            class="d-flex align-items-center"
+                        >
+                            <div class="me-3">
+                                <label for="status" class="form-label">Update task status:</label>
+                                <select name="newStatus" id="status" class="form-select me-2">
+                                    <option value=""></option>
+                                    <option value="in progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="queued">Re-Queue</option>
+                                </select>
+                            </div>
+                            <button 
+                                type="submit" 
+                                class="btn btn-primary"
+                                hx-patch="{% url 'status-update' pk=task.pk %}" 
+                                hx-target="body" 
+                            >
+                                Update
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editTaskModal"
+                        data-task-id="{{ task.id }}" data-task-title="{{ task.title }}" 
+                        data-task-description="{{ task.description }}" data-task-due-date="{{ task.due_date }}"
+                        data-task-priority="{{ task.priority }}">
+                        Edit Task
+                    </button>
+                    <a href="{% url 'view-tasks' %}" class="btn btn-primary me-2">Back to Task List</a>
+                    <!-- Delete Task Button with Confirmation Modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                        Delete Task
+                    </button>
+                </div>
             </div>
         </div>
     </div>
