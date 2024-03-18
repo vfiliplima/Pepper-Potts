@@ -121,9 +121,10 @@ def task_update(request, pk):
 
 @login_required
 @require_http_methods(["PATCH"])
-def task_status_update(request, pk):   
+def task_status_update(request, pk):
     task = get_object_or_404(Task, pk=pk)
 
     task.status = QueryDict(request.body).get("newStatus")
     task.save()
+
     return HttpResponseRedirect(reverse("view-tasks"))
