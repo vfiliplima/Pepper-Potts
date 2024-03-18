@@ -27,8 +27,17 @@ To set up the project locally, follow these steps:
    ```
 
 4. **Run the containers**:
+
    ```
    docker-compose up
+   ```
+
+5. **Create DB Tables**:
+
+   ```
+   docker-compose web run python manage.py makemigration
+
+   docker-compose web run python manage.py migrate
    ```
 
 ## Usage
@@ -47,7 +56,7 @@ Once the project is set up, and you server is running, here are some steps to ge
 
 - You'll only be able to click a task and navigate to task detail page if you are the "creator" of that task.
 - You only have access to "edit" and "delete" buttons on task detail page.
-- Additional features being developed include:
+- Additional features include:
   - Search bar: allow searching for task title.
   - Pagination: display limited amount of tasks per page.
   - Task completion fucntionality: easy and intuitive way to mark tasks as "completed".
