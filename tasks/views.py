@@ -55,7 +55,7 @@ def task_list(request):
     if priority:
         tasks = tasks.filter(priority=priority)
 
-    paginator = Paginator(tasks, 5)
+    paginator = Paginator(tasks, 10)
     page_obj = paginator.get_page(page_number)
 
     return render(request, "task_list.html", {"page_obj": page_obj})
