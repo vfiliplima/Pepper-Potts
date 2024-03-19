@@ -38,6 +38,12 @@ To set up the project locally, follow these steps:
    docker-compose web run python manage.py migrate
    ```
 
+6. **Run tests**:
+
+   ```
+   docker-compose web run pytest
+   ```
+
 ## Usage
 
 Once the project is set up, and you server is running, here are some steps to get started:
