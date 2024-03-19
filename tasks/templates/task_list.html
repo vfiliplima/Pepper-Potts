@@ -73,7 +73,11 @@
 
             <!-- Checkbox to toggle between all tasks and only user's tasks -->
             <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" id="myTasksCheckbox" hx-get="{% url 'view-tasks' %}?my_tasks=true">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="myTasksCheckbox"
+                >
                 <label class="form-check-label" for="myTasksCheckbox">Show only my tasks</label>
             </div>
     
@@ -180,17 +184,22 @@
 
                     const isChecked = event.target.checked;
                     const url = isChecked ? "{% url 'view-tasks' %}?my_tasks=true" : "{% url 'view-tasks' %}";
-                    console.log(isChecked)
-                    console.log(url)
 
                     fetch(url)
                         .then(response => response.text())
                         .then(html => {
-                            /* TODO: Find a way to assign only the #task-list to be 
-                            re-rendered instead of the whole body
-                            This is causin issues with the toggle button.
-                            */
-                            document.body.innerHTML = html
+                            // Create placeholder element to hold new html
+                            const tempElement = document.createElement('div');
+                            tempElement.innerHTML = html;
+
+                            // Find the element to update
+                            const targetElement = document.querySelector('#task-list');
+
+                            // Replace the content
+                            targetElement.innerHTML = tempElement.querySelector('#task-list').innerHTML;
+
+                            // Clean up
+                            tempElement.remove();
                         })
                         .catch(error => console.error('Error:', error));
                 }
