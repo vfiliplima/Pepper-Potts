@@ -61,12 +61,15 @@
         </ul>
     </div>
     <div class="container py-4">
-        <h1 class="text-center mb-4">Task List</h1>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <!-- Create New Task Button -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTaskModal">
-                Create New Task
-            </button>
+            {% if user.is_authenticated %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+                    Create New Task
+                </button>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary">Create New Task</a>
+            {% endif %}
 
             <!-- Checkbox to toggle between all tasks and only user's tasks -->
             <div class="form-check form-switch mb-3">
@@ -94,7 +97,7 @@
                 <input
                     class="form-control" type="search" 
                     name="search" placeholder="Search Title" 
-                    hx-get="/task-list" 
+                    hx-get="{% url 'view-tasks' %}?search=" 
                     hx-trigger="input changed delay:500ms, search" 
                     hx-target="body"
                 >
@@ -172,16 +175,22 @@
     <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    
             document.body.addEventListener('change', function(event) {
                 if (event.target.matches('#myTasksCheckbox')) {
+
                     const isChecked = event.target.checked;
                     const url = isChecked ? "{% url 'view-tasks' %}?my_tasks=true" : "{% url 'view-tasks' %}";
+                    console.log(isChecked)
+                    console.log(url)
+
                     fetch(url)
                         .then(response => response.text())
                         .then(html => {
-                            document.body.innerHTML = html;
-                            // Re-attach event listeners after updating the HTML content
+                            /* TODO: Find a way to assign only the #task-list to be 
+                            re-rendered instead of the whole body
+                            This is causin issues with the toggle button.
+                            */
+                            document.body.innerHTML = html
                         })
                         .catch(error => console.error('Error:', error));
                 }

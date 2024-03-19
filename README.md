@@ -17,7 +17,7 @@ To set up the project locally, follow these steps:
 2. **Navigate to the project folder**:
 
    ```
-   cd task_management
+   cd Pepper-Potts
    ```
 
 3. **Build the Docker containers**:
@@ -35,8 +35,6 @@ To set up the project locally, follow these steps:
 5. **Create DB Tables**:
 
    ```
-   docker-compose web run python manage.py makemigration
-
    docker-compose web run python manage.py migrate
    ```
 
